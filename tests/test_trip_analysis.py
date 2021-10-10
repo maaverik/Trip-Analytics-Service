@@ -15,3 +15,8 @@ def test_get_total_trips(analyser):
     assert total_trips_dict[0] == {"date": "2020-01-01", "total_trips": 20798}
     assert total_trips_dict[1] == {"date": "2020-01-02", "total_trips": 26302}
     assert total_trips_dict[2] == {"date": "2020-01-03", "total_trips": 30795}
+
+
+def test_get_average_speed_24hrs(analyser):
+    average_speed = analyser.get_average_speed_24hrs(date="2020-01-02")
+    assert average_speed == 23.31

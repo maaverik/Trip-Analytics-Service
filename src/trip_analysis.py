@@ -29,3 +29,18 @@ class TaxiTripAnalyser:
         )
         trips = trips[["date", "total_trips"]]
         return trips.to_dict("records")
+
+    def get_average_speed_24hrs(self, date: str):
+        unit_conversion_factor = 1.609 * 3600
+        self.df["speed"] = (
+            self.df["trip_miles"] / self.df["trip_seconds"]
+        ) * unit_conversion_factor
+        self.df["speed"] = self.df["speed"].replace([np.inf], np.nan)
+        self.df["trip_end_date"] = self.df["trip_end_timestamp"].dt.date
+
+        date = dt.datetime.strptime(date, "%Y-%m-%d").date()
+        previous_date = date - dt.timedelta(days=1)
+        in_date_range = self.df["trip_end_date"] == previous_date
+        df = self.df[in_date_range]
+        average_speed = df["speed"].dropna().mean()
+        return round(average_speed, 2)
