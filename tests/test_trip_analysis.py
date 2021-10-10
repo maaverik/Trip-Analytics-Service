@@ -18,8 +18,8 @@ def test_get_total_trips(analyser):
 
 
 def test_get_average_speed_24hrs(analyser):
-    average_speed = analyser.get_average_speed_24hrs(date="2020-01-02")
-    assert average_speed == 23.31
+    average_speed_list = analyser.get_average_speed_24hrs(date="2020-01-02")
+    assert average_speed_list[0]["average_speed"] == 23.31
 
 
 def test_get_average_fare_heatmap(analyser):

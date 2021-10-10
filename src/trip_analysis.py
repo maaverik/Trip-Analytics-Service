@@ -1,6 +1,7 @@
 import pandas as pd
 import datetime as dt
 import numpy as np
+import math
 from s2cell import lat_lon_to_cell_id
 
 
@@ -97,7 +98,10 @@ class TaxiTripAnalyser:
         in_date_range = df["trip_end_date"] == previous_date
         df = df[in_date_range]
         average_speed = df["speed"].dropna().mean()
-        return round(average_speed, 2)
+        average_speed = round(average_speed, 2)
+        if math.isnan(average_speed) or math.isinf(average_speed):
+            average_speed = "NaN"
+        return [{"average_speed": average_speed}]
 
     def get_average_fare_heatmap(self, date: str):
         df = self.df
