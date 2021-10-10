@@ -4,8 +4,8 @@ from src.trip_analysis import TaxiTripAnalyser
 
 @pytest.fixture(autouse=True)
 def analyser():
-    data_source_path = "./data/chicago_taxi_trips_2020.parquet"
-    return TaxiTripAnalyser(data_source_path)
+    data_source_path = "./data/chicago_taxi_trips_2020_processed.csv"
+    return TaxiTripAnalyser.load_from_processed_csv(data_source_path)
 
 
 def test_get_total_trips(analyser):
@@ -28,4 +28,4 @@ def test_get_average_fare_heatmap(analyser):
     for heatmap in heatmap_list:
         heatmap_dict[str(heatmap["s2id"])] = heatmap["fare"]
     assert heatmap_dict["9803813108492271616"] == 43.79
-    print(heatmap_dict)
+    assert heatmap_dict["9803814005603565568"] == 10.72
