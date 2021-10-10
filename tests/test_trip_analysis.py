@@ -20,3 +20,12 @@ def test_get_total_trips(analyser):
 def test_get_average_speed_24hrs(analyser):
     average_speed = analyser.get_average_speed_24hrs(date="2020-01-02")
     assert average_speed == 23.31
+
+
+def test_get_average_fare_heatmap(analyser):
+    heatmap_list = analyser.get_average_fare_heatmap(date="2020-01-01")
+    heatmap_dict = {}
+    for heatmap in heatmap_list:
+        heatmap_dict[str(heatmap["s2id"])] = heatmap["fare"]
+    assert heatmap_dict["9803813108492271616"] == 43.79
+    print(heatmap_dict)
