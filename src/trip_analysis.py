@@ -2,7 +2,13 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 import math
+import logging
+import sys
 from s2cell import lat_lon_to_cell_id
+
+pd.options.mode.chained_assignment = None
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logger = logging.getLogger()
 
 
 class TaxiTripAnalyser:
@@ -11,19 +17,24 @@ class TaxiTripAnalyser:
 
     @classmethod
     def load_from_unprocessed_parquet(cls, data_source_path):
+        logger.debug("Loading unprocessed parquet file...")
         df = pd.read_parquet(data_source_path).reset_index(drop=True)
         df = cls.pre_process_df(df)
         processed_df_path = data_source_path.replace(".parquet", "_processed.csv")
+        logger.debug(f"Saving processed dataframe at {processed_df_path}...")
         df.to_csv(processed_df_path, index=False)
         return cls(df)
 
     @classmethod
     def load_from_processed_csv(cls, data_source_path):
+        logger.debug(f"Loading processed dataframe from {data_source_path}...")
         df = pd.read_csv(data_source_path)
+        df = df.replace([""], np.nan)
         return cls(df)
 
     @classmethod
     def pre_process_df(cls, df, s2_level: int = 16):
+        logger.debug("Preprocessing the input dataframe...")
         required_columns = [
             "unique_key",
             "trip_start_timestamp",
@@ -40,25 +51,28 @@ class TaxiTripAnalyser:
         df = cls.add_speed(df)
         df = cls.add_s2id(df, s2_level)
 
-        columns_to_drop = [
-            "trip_start_timestamp",
-            "trip_end_timestamp",
-            "trip_miles",
-            "trip_seconds",
-            "pickup_latitude",
-            "pickup_longitude",
+        required_columns = [
+            "unique_key",
+            "trip_start_date",
+            "trip_end_date",
+            "speed",
+            "s2id",
+            "fare",
         ]
-        df = df.drop(columns=columns_to_drop)
+        df = df[required_columns]
+        logger.debug("Preprocessing complete")
         return df
 
     @staticmethod
     def add_date(df):
+        logger.debug("Adding date columns...")
         df["trip_start_date"] = df["trip_start_timestamp"].dt.date.astype(str)
         df["trip_end_date"] = df["trip_end_timestamp"].dt.date.astype(str)
         return df
 
     @staticmethod
     def add_speed(df):
+        logger.debug("Adding speed column...")
         unit_conversion_factor = 1.609 * 3600
         df["speed"] = (df["trip_miles"] / df["trip_seconds"]) * unit_conversion_factor
         df["speed"] = df["speed"].replace([np.inf], np.nan)
@@ -66,6 +80,7 @@ class TaxiTripAnalyser:
 
     @staticmethod
     def add_s2id(df, s2_level: int = 16):
+        logger.debug("Adding s2id column...")
         df_temp = df[["pickup_latitude", "pickup_longitude"]].dropna()
         s2ids = df_temp.apply(
             lambda row: lat_lon_to_cell_id(
