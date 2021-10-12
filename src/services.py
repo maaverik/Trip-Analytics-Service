@@ -1,6 +1,6 @@
 import uvicorn
 from fastapi import FastAPI, Query
-from src.trip_analysis import TaxiTripAnalyser
+from .trip_analysis import TaxiTripAnalyser
 
 app = FastAPI()
 

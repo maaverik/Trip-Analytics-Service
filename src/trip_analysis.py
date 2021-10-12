@@ -7,7 +7,7 @@ import sys
 from s2cell import lat_lon_to_cell_id
 
 pd.options.mode.chained_assignment = None  # suppress SettingWithCopy warning
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger()
 
 
@@ -17,24 +17,24 @@ class TaxiTripAnalyser:
 
     @classmethod
     def load_from_unprocessed_parquet(cls, data_source_path):
-        logger.debug("Loading unprocessed parquet file...")
+        logger.info("Loading unprocessed parquet file...")
         df = pd.read_parquet(data_source_path).reset_index(drop=True)
         df = cls.pre_process_df(df)
         processed_df_path = data_source_path.replace(".parquet", "_processed.csv")
-        logger.debug(f"Saving processed dataframe at {processed_df_path}...")
+        logger.info(f"Saving processed dataframe at {processed_df_path}...")
         df.to_csv(processed_df_path, index=False)
         return cls(df)
 
     @classmethod
     def load_from_processed_csv(cls, data_source_path):
-        logger.debug(f"Loading processed dataframe from {data_source_path}...")
+        logger.info(f"Loading processed dataframe from {data_source_path}...")
         df = pd.read_csv(data_source_path)
         df = df.replace([""], np.nan)
         return cls(df)
 
     @classmethod
     def pre_process_df(cls, df, s2_level: int = 16):
-        logger.debug("Preprocessing the input dataframe...")
+        logger.info("Preprocessing the input dataframe...")
         required_columns = [
             "unique_key",
             "trip_start_timestamp",
