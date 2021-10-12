@@ -8,6 +8,19 @@ def analyser():
     return TaxiTripAnalyser.load_from_processed_csv(data_source_path)
 
 
+def test_preprocessed_data(analyser):
+    required_columns = [
+        "unique_key",
+        "trip_start_date",
+        "trip_end_date",
+        "speed",
+        "s2id",
+        "fare",
+    ]
+    for column in required_columns:
+        assert column in analyser.df.columns
+
+
 def test_get_total_trips(analyser):
     total_trips_dict = analyser.get_total_trips(
         start_date="2020-01-01", end_date="2020-01-03"

@@ -6,7 +6,7 @@ import logging
 import sys
 from s2cell import lat_lon_to_cell_id
 
-pd.options.mode.chained_assignment = None
+pd.options.mode.chained_assignment = None  # suppress SettingWithCopy warning
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger()
 
@@ -45,7 +45,7 @@ class TaxiTripAnalyser:
             "pickup_longitude",
             "fare",
         ]
-        df = df[required_columns]
+        df = df[required_columns]  # to speed up subsequent operations
 
         df = cls.add_date(df)
         df = cls.add_speed(df)
@@ -59,7 +59,7 @@ class TaxiTripAnalyser:
             "s2id",
             "fare",
         ]
-        df = df[required_columns]
+        df = df[required_columns]  # only store required columns
         logger.debug("Preprocessing complete")
         return df
 
@@ -128,5 +128,6 @@ class TaxiTripAnalyser:
         return df.to_dict("records")
 
 
-# data_source_path = "./data/chicago_taxi_trips_2020.parquet"
-# TaxiTripAnalyser.load_from_unprocessed_parquet(data_source_path)
+# if __name__ == "__main__":
+#     data_source_path = "./data/chicago_taxi_trips_2020.parquet"
+#     TaxiTripAnalyser.load_from_unprocessed_parquet(data_source_path)

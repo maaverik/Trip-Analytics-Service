@@ -1,4 +1,4 @@
 *.pyc
-data/chicago_taxi_trips_2020.parquet
 .vscode/launch.json
-data/chicago_taxi_trips_2020_processed.csv
+data/*
+
