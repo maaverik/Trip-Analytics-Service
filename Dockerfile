@@ -1,12 +1,17 @@
 FROM continuumio/miniconda3
 
-COPY "requirements.txt" /
+# to run as non-root
+RUN useradd --create-home appuser
+WORKDIR /home/appuser
+USER appuser
+
+COPY "requirements.txt" .
 RUN ["pip", "install", "-r", "requirements.txt"]
 
-COPY /src /src
+COPY /src ./src
 RUN ["python", "-m", "src.prepare_data"]
 
-COPY /tests /tests
+COPY /tests ./tests
 RUN ["python", "-m", "pytest", "-v", "tests"]
 
 EXPOSE 8000
