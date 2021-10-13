@@ -1,11 +1,9 @@
 import os
 import gdown
-import logging
-import sys
 from src.trip_analysis import TaxiTripAnalyser
+from src.utils import get_default_logger
 
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-logger = logging.getLogger()
+logger = get_default_logger(__name__)
 
 
 def download_dataset_from_drive(url, output_path):

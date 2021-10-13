@@ -1,2 +1,4 @@
 #!/bin/sh
-docker run -p 8000:8000 taxi-trip-analysis
+PORT=${1:-8000}
+echo Starting taxi analytics at port $PORT...
+docker run -p $PORT:8000 taxi-trip-analysis

@@ -2,13 +2,13 @@ import pandas as pd
 import datetime as dt
 import numpy as np
 import math
-import logging
-import sys
 from s2cell import lat_lon_to_cell_id
+from src.utils import get_default_logger
 
 pd.options.mode.chained_assignment = None  # suppress SettingWithCopy warning
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-logger = logging.getLogger()
+
+
+logger = get_default_logger(__name__)
 
 
 class TaxiTripAnalyser:
