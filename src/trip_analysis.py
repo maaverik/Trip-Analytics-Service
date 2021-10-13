@@ -128,8 +128,3 @@ class TaxiTripAnalyser:
         df = df.groupby("s2id")["fare"].mean().reset_index()
         df["fare"] = round(df["fare"], 2)
         return df.to_dict("records")
-
-
-# if __name__ == "__main__":
-#     data_source_path = "./data/chicago_taxi_trips_2020.parquet"
-#     TaxiTripAnalyser.load_from_unprocessed_parquet(data_source_path)

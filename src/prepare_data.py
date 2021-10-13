@@ -2,7 +2,7 @@ import os
 import gdown
 import logging
 import sys
-from .trip_analysis import TaxiTripAnalyser
+from src.trip_analysis import TaxiTripAnalyser
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 logger = logging.getLogger()
