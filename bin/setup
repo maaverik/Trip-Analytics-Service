@@ -1,3 +1,2 @@
 #!/bin/sh
-python -m src.prepare_data
-python -m pytest -vv tests
+docker build --tag taxi-trip-analysis .

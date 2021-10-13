@@ -34,7 +34,9 @@ class TaxiTripAnalyser:
 
     @classmethod
     def pre_process_df(cls, df, s2_level: int = 16):
-        logger.info("Preprocessing the input dataframe...")
+        logger.info(
+            "Preprocessing the input dataframe, this will take a few minutes..."
+        )
         required_columns = [
             "unique_key",
             "trip_start_timestamp",
@@ -65,14 +67,14 @@ class TaxiTripAnalyser:
 
     @staticmethod
     def add_date(df):
-        logger.debug("Adding date columns...")
+        logger.info("Adding date columns...")
         df["trip_start_date"] = df["trip_start_timestamp"].dt.date.astype(str)
         df["trip_end_date"] = df["trip_end_timestamp"].dt.date.astype(str)
         return df
 
     @staticmethod
     def add_speed(df):
-        logger.debug("Adding speed column...")
+        logger.info("Adding speed column...")
         unit_conversion_factor = 1.609 * 3600
         df["speed"] = (df["trip_miles"] / df["trip_seconds"]) * unit_conversion_factor
         df["speed"] = df["speed"].replace([np.inf], np.nan)
@@ -80,7 +82,7 @@ class TaxiTripAnalyser:
 
     @staticmethod
     def add_s2id(df, s2_level: int = 16):
-        logger.debug("Adding s2id column...")
+        logger.info("Adding s2id column...")
         df_temp = df[["pickup_latitude", "pickup_longitude"]].dropna()
         s2ids = df_temp.apply(
             lambda row: lat_lon_to_cell_id(

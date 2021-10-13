@@ -1,2 +1,2 @@
 #!/bin/sh
-python -m src.services
+docker run -p 8000:8000 taxi-trip-analysis
