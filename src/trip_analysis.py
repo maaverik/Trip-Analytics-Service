@@ -120,7 +120,7 @@ class TaxiTripAnalyser:
         average_speed = df["speed"].dropna().mean()
         average_speed = round(average_speed, 2)
         if math.isnan(average_speed) or math.isinf(average_speed):
-            average_speed = "NaN"
+            average_speed = None
         return [{"average_speed": average_speed}]
 
     def get_average_fare_heatmap(self, date: str):
