@@ -1,5 +1,5 @@
 import uvicorn
-from fastapi import FastAPI, Query, Request
+from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from src.trip_analysis import TaxiTripAnalyser
 from src.utils import get_config, is_valid_iso_date

@@ -1,2 +1,3 @@
 #!/bin/sh
-docker build --tag taxi-trip-analysis .
+# adding --progress=plain since image logs weren't coming up on Mac machines without them
+docker build --progress=plain --tag taxi-trip-analysis .
