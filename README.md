@@ -33,6 +33,8 @@ The web services are built using [FastAPI](https://fastapi.tiangolo.com/). The c
 2.  To run the web service:
     run `bin/run <OPTIONAL PORT>`
 
+A repo.bundle file is also present in the project directory and can be used to recreate the entire repo with all the commit history.
+
 ## Design
 
 This project consist of the follwing main components.
