@@ -15,5 +15,5 @@ RUN ["python", "-m", "src.prepare_data"]
 COPY /tests ./tests
 RUN ["python", "-m", "pytest", "-v", "tests", "--cov=src"]
 
-EXPOSE 8000
+EXPOSE 8080
 ENTRYPOINT ["python", "-m", "src.services"]
