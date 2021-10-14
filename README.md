@@ -14,7 +14,7 @@ Here, the goal is to build web APIs that provide basic analytics over the Chicag
 
 ## Introduction
 
-The web services are built using [FastAPI](https://fastapi.tiangolo.com/). The code is in python 3 and is dockerised. Three APIs are exposed:
+The web services are built using [FastAPI](https://fastapi.tiangolo.com/). The code is in python 3, uses the pandas package for all the data transformations and is dockerised. Three GET APIs are exposed:
 
 - Total Trips per Day - Returns the total number of trips in the date range provided.
   `/total_trips?start=2020-01-01&end=2020-01-31`
@@ -43,7 +43,7 @@ This project consist of the follwing main components.
     For supporting the required operations, rows with any missing values among the required columns were dropped in the calculations.
 
 2.  `src/prepare_data.py`
-    Responsible for downloading the raw dataset, initiating the preprocessing step and storing the preprocessed data to disk for further use. This preprocessing will take a few mins because S2 ID calculation is done rowwise using the s2cell package due to lack of a better alternative.
+    Responsible for downloading the raw dataset, initiating the preprocessing step and storing the preprocessed data as a CSV to disk for further use. This preprocessing will take a few mins because S2 ID calculation is done rowwise using the s2cell package due to lack of a better alternative.
 
 3.  `src/services.py`
     Uses FastAPI to serve three APIs. Swagger documentation is provided by FastAPI out of the box and can be accessed through `http://<HOST>:<PORT>/docs`.
@@ -52,10 +52,10 @@ This project consist of the follwing main components.
     Contains some utility functions that are reused multiple times elsewhere.
 
 5.  `bin/setup`
-    Builds a docker image using the included Dockerfile and requirements.txt file containing required pip packages. This also runs the test suite and prints the coverage report.
+    Builds a docker image using the included Dockerfile and requirements.txt file containing required pip packages. This also runs the test suite and prints the coverage report. It will take 5-10 minutes to run completely.
 
 6.  `bin/run`
-    Runs the docker container and start the API service. It runs on localhost:8080 by default, but a port number can be passed dynamically to make it run on a specific one on the client machine even though it runs on port 8080 inside the container.
+    Runs the docker container and start the API service. It runs on localhost:8080 by default, but a port number can be passed dynamically to make it run on a specific one on the client machine even though it runs on port 8080 inside the container. It loads the preprocessed CSV nto memory and should start up in a few seconds.
 
 7.  `config.json`
     Contains the dataset URL and local paths to store downloaded and preprocessed data.
