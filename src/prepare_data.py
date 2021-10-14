@@ -18,9 +18,10 @@ def download_dataset_from_drive(url, output_path):
 
 def download_and_preprocess_data(url, unprocessed_data_path, processed_data_path):
     download_dataset_from_drive(url, unprocessed_data_path)
-    TaxiTripAnalyser.load_and_process_unprocessed_parquet(
-        unprocessed_data_path, processed_data_path
+    analyser = TaxiTripAnalyser.load_and_process_unprocessed_parquet(
+        unprocessed_data_path
     )
+    analyser.store_df_as_csv(processed_data_path)
 
 
 if __name__ == "__main__":

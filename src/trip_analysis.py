@@ -16,17 +16,11 @@ class TaxiTripAnalyser:
         self.df = df
 
     @classmethod
-    def load_and_process_unprocessed_parquet(
-        cls, data_source_path, processed_data_path=None
-    ):
+    def load_and_process_unprocessed_parquet(cls, data_source_path):
         logger.info("Loading unprocessed parquet file...")
         df = pd.read_parquet(data_source_path).reset_index(drop=True)
         df = cls.pre_process_df(df)
-
-        if not processed_data_path:
-            processed_data_path = data_source_path.replace(".parquet", "_processed.csv")
-        logger.info(f"Saving processed dataframe at {processed_data_path}...")
-        df.to_csv(processed_data_path, index=False)
+        return cls(df)
 
     @classmethod
     def load_from_processed_csv(cls, data_source_path):
@@ -67,6 +61,10 @@ class TaxiTripAnalyser:
         df = df[required_columns]  # only store required columns
         logger.debug("Preprocessing complete")
         return df
+
+    def store_df_as_csv(self, storage_path):
+        logger.info(f"Saving dataframe at {storage_path}...")
+        self.df.to_csv(storage_path, index=False)
 
     @staticmethod
     def add_date(df):
