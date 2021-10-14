@@ -1,0 +1,5 @@
+{
+  "unprocessed_data_path": "./data/chicago_taxi_trips_2020.parquet",
+  "processed_data_path": "./data/chicago_taxi_trips_2020_processed.csv",
+  "dataset_download_url": "https://drive.google.com/u/0/uc?id=1QLBGFOoKw_3-iM58q4unWfwHmPqfnrYr&export=download"
+}

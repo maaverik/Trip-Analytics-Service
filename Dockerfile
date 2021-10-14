@@ -8,6 +8,7 @@ USER appuser
 COPY "requirements.txt" .
 RUN ["pip", "install", "-r", "requirements.txt"]
 
+COPY "config.json" .
 COPY /src ./src
 RUN ["python", "-m", "src.prepare_data"]
 

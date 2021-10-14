@@ -1,10 +1,12 @@
 import pytest
 from src.trip_analysis import TaxiTripAnalyser
+from src.utils import get_config
 
 
 @pytest.fixture(autouse=True)
 def analyser():
-    data_source_path = "./data/chicago_taxi_trips_2020_processed.csv"
+    config = get_config()
+    data_source_path = config["processed_data_path"]
     return TaxiTripAnalyser.load_from_processed_csv(data_source_path)
 
 

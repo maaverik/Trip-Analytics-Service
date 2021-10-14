@@ -4,6 +4,7 @@ import datetime as dt
 from src.prepare_data import download_and_preprocess_data
 
 
+# integration test for data preprocessing
 @patch("os.makedirs")
 @patch("os.path")
 @patch("gdown.download")
@@ -25,7 +26,7 @@ def test_load_and_process_unprocessed_parquet(
         }
     )
     mock_parquet.return_value = dummy_df
-    download_and_preprocess_data("dummy/url", "./dummy/path")
+    download_and_preprocess_data("dummy/url", "./dummy/in/path", "./dummy/out/path")
 
     mock_parquet.assert_called()
     mock_csv.assert_called()

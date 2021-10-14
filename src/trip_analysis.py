@@ -16,14 +16,17 @@ class TaxiTripAnalyser:
         self.df = df
 
     @classmethod
-    def load_and_process_unprocessed_parquet(cls, data_source_path):
+    def load_and_process_unprocessed_parquet(
+        cls, data_source_path, processed_data_path=None
+    ):
         logger.info("Loading unprocessed parquet file...")
         df = pd.read_parquet(data_source_path).reset_index(drop=True)
         df = cls.pre_process_df(df)
 
-        processed_df_path = data_source_path.replace(".parquet", "_processed.csv")
-        logger.info(f"Saving processed dataframe at {processed_df_path}...")
-        df.to_csv(processed_df_path, index=False)
+        if not processed_data_path:
+            processed_data_path = data_source_path.replace(".parquet", "_processed.csv")
+        logger.info(f"Saving processed dataframe at {processed_data_path}...")
+        df.to_csv(processed_data_path, index=False)
 
     @classmethod
     def load_from_processed_csv(cls, data_source_path):

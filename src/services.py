@@ -1,10 +1,12 @@
 import uvicorn
 from fastapi import FastAPI, Query
 from src.trip_analysis import TaxiTripAnalyser
+from src.utils import get_config
 
 app = FastAPI()
 
-data_source_path = "./data/chicago_taxi_trips_2020_processed.csv"
+config = get_config()
+data_source_path = config["processed_data_path"]
 trip_analyser = TaxiTripAnalyser.load_from_processed_csv(data_source_path)
 
 # enforcing date query format in HTTP handlers
