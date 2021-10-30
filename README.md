@@ -1,7 +1,5 @@
 # Chicago Taxi Trip Analysis
 
-Author: Nithin Tom | [LinkedIn](https://www.linkedin.com/in/nithin-tom/)
-
 Here, the goal is to build web APIs that provide basic analytics over the Chicago Taxi Trips dataset for the year 2020.
 
 ## Table of contents
