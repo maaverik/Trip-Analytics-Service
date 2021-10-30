@@ -1,4 +1,4 @@
-# Chicago Taxi Trip Analysis
+# Trip Analysis
 
 Here, the goal is to build web APIs that provide basic analytics over the Chicago Taxi Trips dataset for the year 2020.
 
